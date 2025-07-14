@@ -1,380 +1,58 @@
-/* === Umumiy Stilar === */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif; /* O'zingizga mos fontni tanlang */
-}
-
 body {
-  line-height: 1.6;
-}
-
-a {
-  text-decoration: none;
-  color: #333; /* Asosiy link rangi */
-}
-
-img {
-  max-width: 100%; /* Rasmlarni responsive qilish */
-  display: block;
-}
-
-.container {
-  max-width: 1100px; /* Konteyner kengligi */
-  margin: 0 auto;
-  padding: 0 20px; /* Yonlardan joy tashlash */
-}
-
-/* === Header va Navigatsiya === */
-header {
-  background: #f8f8f8; /* Orqa fon rangi (misol) */
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.navbar {
-  padding: 1rem 0;
-}
-
-.navigation {
   display: flex;
-  justify-content: space-between; /* Logo va nav linklarini chetga surish */
-  align-items: center;
-}
-
-.logo a {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #555;
-}
-
-.navbar-nav {
-  display: flex; /* Linklarni yonma-yon joylash */
-}
-
-.navbar-nav a {
-  padding: 0.5rem 1rem;
-  margin-left: 0.5rem;
-  color: #555;
-  text-transform: uppercase;
-  font-weight: 500;
-  transition: color 0.3s ease;
-}
-
-.navbar-nav a:hover {
-  color: #007bff; /* Hover rangi */
-}
-
-/* Menu Toggle Tugmasi (boshida yashirin) */
-.menu-toggle {
-  display: none; /* Katta ekranlarda ko'rinmasin */
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: #333;
-}
-
-/* === Banner === */
-.banner {
-  background: url('banner-bg.jpg') no-repeat center center/cover; /* Fon rasmini qo'shing */
-  color: #fff; /* Matn rangi (fon rasmiga mos) */
-  text-align: center;
-  padding: 80px 20px; /* Katta joy */
-  min-height: 60vh;
-  display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 100vh;
+  background: #f3f3f3;
+  font-family: Arial, sans-serif;
 }
 
-.banner-title {
-  font-size: 3rem;
-  margin-bottom: 1rem;
+.calculator {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  width: 300px;
 }
 
-.banner-title span {
-  color: #007bff; /* "Art." qismi uchun rang */
-}
-
-.banner p {
-  font-size: 1.2rem;
-  margin-bottom: 2rem;
-}
-
-.banner form {
-  display: flex;
-  max-width: 400px;
-  width: 90%; /* Kichik ekranlarda ham ishlashi uchun */
-}
-
-.search-input {
-  flex-grow: 1;
-  padding: 0.8rem;
-  border: none;
-  border-radius: 5px 0 0 5px;
-}
-
-.search-btn {
-  padding: 0.8rem 1rem;
-  border: none;
-  background: #007bff;
-  color: white;
-  cursor: pointer;
-  border-radius: 0 5px 5px 0;
-  font-size: 1rem;
-}
-
-/* === Umumiy Section va Title Stili === */
-section {
-  padding: 60px 0;
-}
-
-.title {
-  text-align: center;
-  margin-bottom: 40px;
-}
-
-.title h2 {
-  font-size: 2.2rem;
-  margin-bottom: 0.5rem;
-  color: #333;
-}
-
-.title p {
-  color: #777;
-  text-transform: uppercase;
-  font-size: 0.9rem;
-}
-
-/* === Design Section === */
-.design-content {
-  display: grid; /* Grid layout ishlatamiz */
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Avtomatik moslashuvchan ustunlar */
-  gap: 2rem; /* Elementlar orasidagi masofa */
-}
-
-.design-item {
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  border-radius: 5px;
-  overflow: hidden; /* Rasm chegaradan chiqmasligi uchun */
-  background: #fff;
-}
-
-.design-img {
-  position: relative; /* Ikonkalarni joylashtirish uchun */
-}
-
-.design-img img {
+#display {
   width: 100%;
-  height: 250px; /* Rasm balandligi (moslashtiring) */
-  object-fit: cover; /* Rasm sig'ishi uchun */
+  height: 50px;
+  font-size: 24px;
+  text-align: right;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: none;
+  background: #eee;
+  border-radius: 8px;
 }
 
-.design-img span {
-  position: absolute;
-  background: rgba(0, 0, 0, 0.6);
-  color: white;
-  padding: 5px 10px;
-  font-size: 0.8rem;
-  border-radius: 3px;
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
 }
 
-.design-img span:first-of-type { /* Yurakcha */
-  top: 10px;
-  right: 10px;
-  background: rgba(255, 255, 255, 0.8);
-  color: red;
-  padding: 8px;
-  border-radius: 50%;
+button {
+  padding: 20px;
+  font-size: 20px;
+  border: none;
+  border-radius: 8px;
+  background: #dcdcdc;
   cursor: pointer;
+  transition: background 0.3s;
 }
 
-.design-img span:last-of-type { /* "Art Design" yozuvi */
-  bottom: 10px;
-  left: 10px;
+button:hover {
+  background: #bfbfbf;
 }
 
-.design-title {
-  padding: 1rem;
-}
-
-.design-title a {
-  font-weight: bold;
-  color: #333;
-  transition: color 0.3s ease;
-}
-
-.design-title a:hover {
-  color: #007bff;
-}
-
-/* === Blog Section === */
-.blog-content {
-  display: grid; /* Grid layout */
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-}
-
-.blog-item {
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  border-radius: 5px;
-  overflow: hidden;
-  display: flex; /* Rasm va matnni yonma-yon qo'yish (katta ekranlarda) */
-  flex-direction: column; /* Default holatda ustma-ust */
-}
-
-.blog-img {
-  position: relative;
-}
-
-.blog-img img {
-  width: 100%;
-  height: 200px; /* Rasm balandligi */
-  object-fit: cover;
-}
-
-.blog-img span { /* Yurakcha */
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: rgba(255, 255, 255, 0.8);
-  color: red;
-  padding: 8px;
-  border-radius: 50%;
-  font-size: 0.8rem;
-  cursor: pointer;
-}
-
-.blog-text {
-  padding: 1.5rem;
-  flex-grow: 1; /* Qolgan joyni egallash */
-  display: flex;
-  flex-direction: column;
-}
-
-.blog-text span { /* Sana */
-  font-size: 0.8rem;
-  color: #777;
-  margin-bottom: 0.5rem;
-}
-
-.blog-text h2 {
-  font-size: 1.3rem;
-  margin-bottom: 0.8rem;
-  line-height: 1.4;
-}
-
-.blog-text p {
-  margin-bottom: 1rem;
-  flex-grow: 1; /* Paragrafni pastga surish */
-  color: #555;
-}
-
-.blog-text a { /* Read more */
-  display: inline-block;
-  background: #007bff;
+.equal {
+  grid-column: span 1;
+  background: #4caf50;
   color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 3px;
-  text-align: center;
-  transition: background 0.3s ease;
-  align-self: flex-start; /* Chapga tekislash */
 }
 
-.blog-text a:hover {
-  background: #0056b3;
-}
-
-
-/* === RESPONSIVE STILARI (Media Queries) === */
-
-/* O'rta ekranlar va planshetlar uchun (masalan, 992px dan kichik) */
-@media (max-width: 992px) {
-  .banner-title {
-      font-size: 2.5rem;
-  }
-  .banner p {
-      font-size: 1.1rem;
-  }
-
-  .design-content, .blog-content {
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-  }
-}
-
-/* Kichik ekranlar va Mobil qurilmalar uchun (masalan, 768px dan kichik) */
-@media (max-width: 768px) {
-  .navigation {
-      position: relative; /* Navbar-nav ni to'g'ri joylashtirish uchun */
-  }
-
-  .menu-toggle {
-      display: block; /* Menu tugmasini ko'rsatish */
-  }
-
-  .navbar-nav {
-      display: none; /* Boshida menyu yopiq */
-      flex-direction: column; /* Linklarni ustma-ust joylash */
-      position: absolute;
-      top: 100%; /* Navigatsiya panelining pastidan boshlanadi */
-      left: 0;
-      width: 100%;
-      background: #fff; /* Mobil menyu foni */
-      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-      border-top: 1px solid #eee;
-      padding: 1rem 0;
-  }
-
-  /* JavaScript orqali qo'shiladigan 'active' klass */
-  .navbar-nav.active {
-      display: flex; /* Menyuni ko'rsatish */
-  }
-
-  .navbar-nav a {
-      text-align: center;
-      padding: 0.8rem 1rem;
-      margin: 0;
-      border-bottom: 1px solid #eee; /* Ajratuvchi chiziq */
-  }
-  .navbar-nav a:last-child {
-      border-bottom: none;
-  }
-
-  .banner {
-      padding: 60px 15px;
-      min-height: 50vh;
-  }
-  .banner-title {
-      font-size: 2rem;
-  }
-  .banner p {
-      font-size: 1rem;
-  }
-  .banner form {
-      width: 100%;
-  }
-
-  .title h2 {
-      font-size: 1.8rem;
-  }
-
-  section {
-      padding: 40px 0;
-  }
-
-  /* Design va Blog kontentlari allaqachon grid da responsive */
-  .design-content, .blog-content {
-      grid-template-columns: 1fr; /* Mobil qurilmada faqat bitta ustun */
-      gap: 1.5rem;
-  }
-
-   .design-img img {
-      height: 200px;
-  }
-   .blog-img img {
-      height: 180px;
-  }
+.zero {
+  grid-column: span 2;
 }

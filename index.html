@@ -1,109 +1,38 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-  <meta charset="UTF-8" />
-  <title>QR Code Yaratuvchi</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      min-height: 100vh;
-      background: linear-gradient(135deg, #a1ffce 0%, #faffd1 100%);
-      overflow-x: hidden;
-    }
-
-    h1 {
-      margin-top: 50px;
-      font-size: 2.5em;
-      color: #2e7d32;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-    }
-
-    input, button {
-      font-size: 18px;
-      padding: 12px 20px;
-      margin: 15px;
-      width: 320px;
-      border-radius: 12px;
-      border: none;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      outline: none;
-      transition: all 0.3s ease;
-    }
-
-    input {
-      background-color: #ffffff;
-    }
-
-    button {
-      background-color: #2e7d32;
-      color: white;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #1b5e20;
-      transform: scale(1.05);
-    }
-
-    #qrcode {
-      margin-top: 30px;
-      padding: 20px;
-      background: white;
-      border-radius: 20px;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-      opacity: 0;
-      transform: scale(0.8);
-      transition: all 0.4s ease;
-    }
-
-    #qrcode.show {
-      opacity: 1;
-      transform: scale(1);
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulyator</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="calculator">
+    <input type="text" id="display" disabled>
+    <div class="buttons">
+      <button onclick="clearDisplay()">C</button>
+      <button onclick="appendValue('/')">/</button>
+      <button onclick="appendValue('*')">*</button>
+      <button onclick="appendValue('-')">-</button>
 
-  <h1>QR Code Yaratuvchi</h1>
-  <input type="text" id="text" placeholder="Matn yoki rasm linki kiriting" />
-  <button onclick="generateQRCode()">QR Code Hosil Qilish</button>
-  <div id="qrcode"></div>
+      <button onclick="appendValue('7')">7</button>
+      <button onclick="appendValue('8')">8</button>
+      <button onclick="appendValue('9')">9</button>
+      <button onclick="appendValue('+')">+</button>
 
-  <!-- QR code kutubxonasi -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <script>
-    let qr;
+      <button onclick="appendValue('4')">4</button>
+      <button onclick="appendValue('5')">5</button>
+      <button onclick="appendValue('6')">6</button>
+      <button onclick="calculateResult()" class="equal">=</button>
 
-    function generateQRCode() {
-      const qrDiv = document.getElementById("qrcode");
-      const text = document.getElementById("text").value.trim();
+      <button onclick="appendValue('1')">1</button>
+      <button onclick="appendValue('2')">2</button>
+      <button onclick="appendValue('3')">3</button>
+      <button onclick="appendValue('0')" class="zero">0</button>
+      <button onclick="appendValue('.')">.</button>
+    </div>
+  </div>
 
-      qrDiv.innerHTML = ""; // eski QR code ni tozalash
-      qrDiv.classList.remove("show");
-
-      if (!text) {
-        alert("Iltimos, matn yoki rasm linkini kiriting!");
-        return;
-      }
-
-      setTimeout(() => {
-        qr = new QRCode(qrDiv, {
-          text: text,
-          width: 256,
-          height: 256,
-          colorDark: "#000000",
-          colorLight: "#ffffff",
-        });
-        qrDiv.classList.add("show"); // animatsiya uchun klass qo'shish
-      }, 100);
-    }
-  </script>
-
+  <script src="script.js"></script>
 </body>
 </html>
