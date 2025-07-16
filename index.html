@@ -1,38 +1,30 @@
 <!DOCTYPE html>
-<html lang="uz">
+<html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kalkulyator</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <div class="calculator">
-    <input type="text" id="display" disabled>
-    <div class="buttons">
-      <button onclick="clearDisplay()">C</button>
-      <button onclick="appendValue('/')">/</button>
-      <button onclick="appendValue('*')">*</button>
-      <button onclick="appendValue('-')">-</button>
 
-      <button onclick="appendValue('7')">7</button>
-      <button onclick="appendValue('8')">8</button>
-      <button onclick="appendValue('9')">9</button>
-      <button onclick="appendValue('+')">+</button>
-
-      <button onclick="appendValue('4')">4</button>
-      <button onclick="appendValue('5')">5</button>
-      <button onclick="appendValue('6')">6</button>
-      <button onclick="calculateResult()" class="equal">=</button>
-
-      <button onclick="appendValue('1')">1</button>
-      <button onclick="appendValue('2')">2</button>
-      <button onclick="appendValue('3')">3</button>
-      <button onclick="appendValue('0')" class="zero">0</button>
-      <button onclick="appendValue('.')">.</button>
+    <div class="wrapper">
+        <buttone onclick="_menyu()">Click Me</button>
     </div>
-  </div>
 
-  <script src="script.js"></script>
+    <div class="menu">
+        <h2>Menu</h2>
+        <ul>
+            <li>Bosh sahifa</li>
+            <li>Biz haqimizda</li>
+            <li>Xizmatlar</li>
+            <li>Aloqa</li>
+        </ul>
+    </div>
+
+<script src="js.js"></script>
 </body>
+
 </html>
