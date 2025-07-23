@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batafsil To-Do List</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .input-section {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 2px solid rgba(102, 126, 234, 0.1);
+        }
+
+        .input-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        #taskInput {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        #taskInput:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        #descriptionInput {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s ease;
+            resize: vertical;
+            min-height: 80px;
+            font-family: inherit;
+        }
+
+        #descriptionInput:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .priority-section {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .priority-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 20px;
+            background: white;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .priority-btn.high {
+            border-color: #ff4757;
+            color: #ff4757;
+        }
+
+        .priority-btn.medium {
+            border-color: #ffa502;
+            color: #ffa502;
+        }
+
+        .priority-btn.low {
+            border-color: #2ed573;
+            color: #2ed573;
+        }
+
+        .priority-btn.active {
+            color: white;
+        }
+
+        .priority-btn.high.active {
+            background: #ff4757;
+        }
+
+        .priority-btn.medium.active {
+            background: #ffa502;
+        }
+
+        .priority-btn.low.active {
+            background: #2ed573;
+        }
+
+        #addBtn {
+            padding: 15px 25px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            min-width: 60px;
+        }
+
+        #addBtn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .task-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 15px;
+            color: white;
+            font-weight: 600;
+        }
+
+        .tasks-container {
+            max-height: 500px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #667eea #f1f1f1;
+        }
+
+        .task-item {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+            animation: taskSlideIn 0.3s ease-out;
+            overflow: hidden;
+        }
+
+        .task-item.high-priority {
+            border-left-color: #ff4757;
+        }
+
+        .task-item.medium-priority {
+            border-left-color: #ffa502;
+        }
+
+        .task-item.low-priority {
+            border-left-color: #2ed573;
+        }
+
+        .task-item.completed {
+            opacity: 0.7;
+            border-left-color: #4caf50;
+        }
+
+        .task-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 20px;
+            cursor: pointer;
+        }
+
+        .task-header:hover {
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .task-checkbox {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #667eea;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .task-checkbox.checked {
+            background: #4caf50;
+            border-color: #4caf50;
+        }
+
+        .task-checkbox.checked::after {
+            content: '✓';
+            position: absolute;
+            color: white;
+            font-size: 12px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .task-main {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .task-title {
+            font-size: 16px;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 5px;
+            word-break: break-word;
+        }
+
+        .task-item.completed .task-title {
+            text-decoration: line-through;
+            color: #888;
+        }
+
+        .task-meta {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            font-size: 12px;
+            color: #888;
+        }
+
+        .priority-badge {
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .priority-badge.high {
+            background: rgba(255, 71, 87, 0.1);
+            color: #ff4757;
+        }
+
+        .priority-badge.medium {
+            background: rgba(255, 165, 2, 0.1);
+            color: #ffa502;
+        }
+
+        .priority-badge.low {
+            background: rgba(46, 213, 115, 0.1);
+            color: #2ed573;
+        }
+
+        .task-time {
+            font-size: 11px;
+            color: #aaa;
+        }
+
+        .task-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .expand-btn {
+            width: 30px;
+            height: 30px;
+            border: none;
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .expand-btn:hover {
+            background: rgba(102, 126, 234, 0.2);
+        }
+
+        .delete-btn {
+            background: #ff4757;
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .delete-btn:hover {
+            background: #ff3742;
+            transform: scale(1.1);
+        }
+
+        .task-details {
+            padding: 0 20px 20px 20px;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            background: rgba(102, 126, 234, 0.02);
+            display: none;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .task-details.expanded {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                max-height: 0;
+            }
+            to {
+                opacity: 1;
+                max-height: 200px;
+            }
+        }
+
+        .task-description {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #555;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #888;
+            font-size: 18px;
+        }
+
+        .empty-state .icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            opacity: 0.3;
+        }
+
+        @keyframes taskSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .input-container {
+                flex-direction: column;
+            }
+            
+            .task-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📝 Batafsil Vazifalar</h1>
+        
+        <div class="input-section">
+            <div class="input-container">
+                <input type="text" id="taskInput" placeholder="Vazifa nomini kiriting..." maxlength="100">
+                <button id="addBtn">➕</button>
+            </div>
+            <textarea id="descriptionInput" placeholder="Vazifa haqida batafsil ma'lumot (ixtiyoriy)..."></textarea>
+            <div class="priority-section">
+                <span style="font-size: 14px; color: #666; margin-right: 10px;">Muhimlik:</span>
+                <button class="priority-btn high" data-priority="high">🔴 Yuqori</button>
+                <button class="priority-btn medium active" data-priority="medium">🟡 O'rta</button>
+                <button class="priority-btn low" data-priority="low">🟢 Past</button>
+            </div>
+        </div>
+
+        <div class="task-stats">
+            <span>Jami: <span id="totalTasks">0</span></span>
+            <span>Bajarilgan: <span id="completedTasks">0</span></span>
+            <span>Qolgan: <span id="remainingTasks">0</span></span>
+        </div>
+
+        <div class="tasks-container" id="tasksContainer">
+            <div class="empty-state">
+                <div class="icon">🎯</div>
+                <p>Hozircha vazifalar yo'q.<br>Yuqoridan yangi vazifa qo'shing!</p>
+            </div>
+        </div>
+    </div>
+<script src="main.js"></script>
+</body>
+</html>

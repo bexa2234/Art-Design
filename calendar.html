@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025 Yil Kalendari</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: auto;
+        }
+        
+        .calendar-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .year-title {
+            text-align: center;
+            font-size: clamp(4rem, 8vw, 8rem);
+            font-weight: 800;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            letter-spacing: -2px;
+        }
+        
+        .months-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        .month {
+            background: linear-gradient(145deg, #ffffff, #f8f9ff);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .month::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .month:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        }
+        
+        .month:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .month-name {
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #2d3748;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+        }
+        
+        .day-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 4px;
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .day:not(.other-month) {
+            color: #2d3748;
+            background: rgba(255, 255, 255, 0.7);
+        }
+        
+        .day:not(.other-month):hover {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .day.other-month {
+            color: #cbd5e0;
+            background: transparent;
+        }
+        
+        .day.weekend {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .day.weekend:hover {
+            background: linear-gradient(135deg, #ee5a24, #c23616);
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(238, 90, 36, 0.4);
+        }
+        
+        .day.today {
+            background: linear-gradient(135deg, #ffd700, #ffa500);
+            color: white;
+            font-weight: 700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
+            50% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.8); }
+            100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
+        }
+        
+        .month-header {
+            position: relative;
+            margin-bottom: 15px;
+        }
+        
+        .month-decoration {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            opacity: 0.7;
+        }
+        
+        @media (max-width: 768px) {
+            .calendar-container {
+                padding: 20px;
+            }
+            
+            .year-title {
+                font-size: 4rem;
+                margin-bottom: 30px;
+            }
+            
+            .months-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .month {
+                padding: 20px;
+            }
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="calendar-container">
+        <h1 class="year-title">2025</h1>
+        
+        <div class="months-grid" id="monthsGrid">
+            <!-- JavaScript orqali to'ldiriladi -->
+        </div>
+        
+        <div class="footer">
+            <p class="gradient-text">Zamonaviy Kalendar Dizayni</p>
+            <p>Har bir kun yangi imkoniyatlar olib keladi</p>
+        </div>
+    </div>
+
+    <script>
+        const monthsUzbek = [
+            'YANVAR', 'FEVRAL', 'MART', 'APREL', 'MAY', 'IYUN',
+            'IYUL', 'AVGUST', 'SENTYABR', 'OKTYABR', 'NOYABR', 'DEKABR'
+        ];
+        
+        const dayHeadersUzbek = ['D', 'S', 'C', 'P', 'J', 'S', 'Y'];
+        
+        const monthDecorations = ['❄️', '💝', '🌸', '🌱', '🌺', '☀️', '🏖️', '🍂', '🍁', '🎃', '🦃', '🎄'];
+        
+        function getDaysInMonth(year, month) {
+            return new Date(year, month + 1, 0).getDate();
+        }
+        
+        function getFirstDayOfMonth(year, month) {
+            const day = new Date(year, month, 1).getDay();
+            return day === 0 ? 6 : day - 1; // Dushanbani 0 qilamiz
+        }
+        
+        function isWeekend(dayOfWeek) {
+            return dayOfWeek === 5 || dayOfWeek === 6; // Shanba va Yakshanba
+        }
+        
+        function isToday(year, month, day) {
+            const today = new Date();
+            return today.getFullYear() === year && 
+                   today.getMonth() === month && 
+                   today.getDate() === day;
+        }
+        
+        function createMonth(year, monthIndex) {
+            const daysInMonth = getDaysInMonth(year, monthIndex);
+            const firstDay = getFirstDayOfMonth(year, monthIndex);
+            const daysInPrevMonth = getDaysInMonth(year, monthIndex - 1);
+            
+            let html = `
+                <div class="month">
+                    <div class="month-header">
+                        <h3 class="month-name">${monthsUzbek[monthIndex]}</h3>
+                        <div class="month-decoration">${monthDecorations[monthIndex]}</div>
+                    </div>
+                    <div class="calendar-grid">
+            `;
+            
+            // Hafta kunlari
+            dayHeadersUzbek.forEach(day => {
+                html += `<div class="day-header">${day}</div>`;
+            });
+            
+            // Oldingi oyning kunlari
+            for (let i = firstDay - 1; i >= 0; i--) {
+                html += `<div class="day other-month">${daysInPrevMonth - i}</div>`;
+            }
+            
+            // Joriy oyning kunlari
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayOfWeek = (firstDay + day - 1) % 7;
+                let classes = 'day';
+                
+                if (isWeekend(dayOfWeek)) {
+                    classes += ' weekend';
+                }
+                
+                if (isToday(year, monthIndex, day)) {
+                    classes += ' today';
+                }
+                
+                html += `<div class="${classes}">${day}</div>`;
+            }
+            
+            // Keyingi oyning kunlari
+            const totalCells = 42; // 6 qator × 7 kun
+            const filledCells = firstDay + daysInMonth;
+            for (let day = 1; filledCells + day - 1 < totalCells; day++) {
+                html += `<div class="day other-month">${day}</div>`;
+            }
+            
+            html += `
+                    </div>
+                </div>
+            `;
+            
+            return html;
+        }
+        
+        function generateCalendar() {
+            const monthsGrid = document.getElementById('monthsGrid');
+            let html = '';
+            
+            for (let month = 0; month < 12; month++) {
+                html += createMonth(2025, month);
+            }
+            
+            monthsGrid.innerHTML = html;
+        }
+        
+        // Sahifa yuklanganda kalenderni yaratish
+        document.addEventListener('DOMContentLoaded', generateCalendar);
+        
+        // Kunlarga click event qo'shish
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('day') && !e.target.classList.contains('other-month')) {
+                // Barcha aktiv kunlarni tozalash
+                document.querySelectorAll('.day.selected').forEach(day => {
+                    day.classList.remove('selected');
+                });
+                
+                // Yangi kunni tanlash
+                e.target.classList.add('selected');
+            }
+        });
+        
+        // CSS animatsiyalar uchun qo'shimcha stil
+        const style = document.createElement('style');
+        style.textContent = `
+            .day.selected {
+                background: linear-gradient(135deg, #2ecc71, #27ae60) !important;
+                color: white !important;
+                transform: scale(1.1) !important;
+                box-shadow: 0 5px 20px rgba(46, 204, 113, 0.4) !important;
+                z-index: 10;
+                position: relative;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
